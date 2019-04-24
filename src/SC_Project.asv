@@ -13,11 +13,30 @@ bx=pi;
 ay=-pi;
 by=pi;
 
-% Discretizing the domain into n and N increments 
-hx = (bx-ax)/
+% Discretizing the domain into nx and ny increments to obtain segment
+% lengths hx and hy
+nx=20;
+ny=20;
 
+hx = (bx-ax)/(nx+1);
+hy = (by-ay)/(ny+1);
 
-
+% Boundary conditions for u(x,ay) and u(x,by)
 phi(x) = (x-ax)*(x-ax)*sin(pi(x-ax)/(2*(bx-ax)));
 psi(x) = (cos(pi*(x-ax))-1)*cosh(bx-x);
+
+% Boudary conditions for du/dx(x=ax)=0 & du/dx(x=bx)=0 
+
+% Outlining the function F(x,y) 
 F(x,y) = sin(pi*(x-ax)/(bx-ax))*cos(pi*(2*(y-ay)/(by-ay)+1)/2);
+
+% Ghost nodes
+axneg=ax-hx;
+ayneg=ay-hy;
+nxplus=nx+1;
+nyplus=ny+1;
+
+% Discretizing u(x,y)
+for i = 1:nxplus           %ax:hx:bx
+    ux(i) = axneg+hx*i;
+end
