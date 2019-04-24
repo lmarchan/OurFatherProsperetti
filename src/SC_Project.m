@@ -23,10 +23,6 @@ ny=20;
 hx = (bx-ax)/(nx-1);
 hy = (by-ay)/(ny-1);
 
-% Boundary conditions for u(x,ay) and u(x,by)
-%phi(x) = (x-ax)*(x-ax)*sin(pi(x-ax)/(2*(bx-ax)));
-%psi(x) = (cos(pi*(x-ax))-1)*cosh(bx-x);
-
 % Boudary conditions for du/dx(x=ax)=0 & du/dx(x=bx)=0 
 
 % Outlining the function F(x,y) 
@@ -38,12 +34,29 @@ ayneg=ay-hy;
 nxplus=nx+2;
 nyplus=ny+2;
 
-% Discretizing u(x,y)
-for i = 1:nxplus
-    x(i) = axneg+hx*(i-1);
+% Discretizing x and y, and boundary conditions for u(x,ay),
+% u(x,by),(du/dx)@ax = 0 & (du/dx)@bx = 0
+
+%preallocation
+x=zeros(1,nxplus);
+phi=zeros(1,nxplus);
+psi=zeros(1,nxplus);
+y=zeros(1,nyplus);
+rho=zeros(1,nyplus);
+theta=zeros(1,nyplus);
+
+for j = 1:nxplus
+    x(j) = axneg+hx*(j-1);
+    phi(j) = (x(j)-ax)*(x(j)-ax)*sin(pi*(x(j)-ax)/(2*(bx-ax)));
+    psi(j) = (cos(pi*(x(j)-ax))-1)*cosh(bx-x(j));
 end
 
-for j = 1:nyplus
-    y(j) = ayneg+hy*(j-1);
+for k = 1:nyplus
+    y(k) = ayneg+hy*(k-1);
+    rho(k) = phi(2);
+    theta(k) = psi(nyplus-1);
 end
+
+    
+
 

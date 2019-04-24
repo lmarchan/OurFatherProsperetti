@@ -5,6 +5,8 @@
 % Write a computer code to solve the two-dimensional Poisson Equationin the
 % domain of interest with specified boundary conditions
 
+clc
+clear
 % Domain of interest is a rectangle with:
 % ax<x<bx     ay<y<by
 % Where ax=ay=-pi and bx=by=pi
@@ -18,25 +20,38 @@ by=pi;
 nx=20;
 ny=20;
 
-hx = (bx-ax)/(nx+1);
-hy = (by-ay)/(ny+1);
-
-% Boundary conditions for u(x,ay) and u(x,by)
-phi(x) = (x-ax)*(x-ax)*sin(pi(x-ax)/(2*(bx-ax)));
-psi(x) = (cos(pi*(x-ax))-1)*cosh(bx-x);
+hx = (bx-ax)/(nx-1);
+hy = (by-ay)/(ny-1);
 
 % Boudary conditions for du/dx(x=ax)=0 & du/dx(x=bx)=0 
 
 % Outlining the function F(x,y) 
-F(x,y) = sin(pi*(x-ax)/(bx-ax))*cos(pi*(2*(y-ay)/(by-ay)+1)/2);
+%F(x,y) = sin(pi*(x-ax)/(bx-ax))*cos(pi*(2*(y-ay)/(by-ay)+1)/2);
 
 % Ghost nodes
 axneg=ax-hx;
 ayneg=ay-hy;
-nxplus=nx+1;
-nyplus=ny+1;
+nxplus=nx+2;
+nyplus=ny+2;
 
-% Discretizing u(x,y)
-for i = 1:nxplus           %ax:hx:bx
-    ux(i) = axneg+hx*i;
+% Discretizing x and y, and boundary conditions for u(x,ay),
+% u(x,by),(du/dx)@ax = 0 & (du/dx)@bx = 0
+
+%preallocation
+x=
+
+for j = 1:nxplus
+    x(j) = axneg+hx*(j-1);
+    phi(j) = (x(j)-ax)*(x(j)-ax)*sin(pi*(x(j)-ax)/(2*(bx-ax)));
+    psi(j) = (cos(pi*(x(j)-ax))-1)*cosh(bx-x(j));
 end
+
+for k = 1:nyplus
+    y(k) = ayneg+hy*(k-1);
+    rho(k) = phi(2);
+    theta(k) = psi(nyplus-1);
+end
+
+    
+
+
