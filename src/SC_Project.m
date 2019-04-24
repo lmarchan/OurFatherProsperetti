@@ -18,8 +18,7 @@ by=pi;
 hx = (bx-ax)/(nx+1);
 hy = (by-ay)/(ny+1);
 
-
-
+% something
 phi(x) = (x-ax)*(x-ax)*sin(pi(x-ax)/(2*(bx-ax)));
 psi(x) = (cos(pi*(x-ax))-1)*cosh(bx-x);
 F(x,y) = sin(pi*(x-ax)/(bx-ax))*cos(pi*(2*(y-ay)/(by-ay)+1)/2);
