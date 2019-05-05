@@ -35,8 +35,8 @@ psi=zeros(1,nx);
 y=zeros(1,ny);               
 
 % Discretizing x, and boundary conditions for u(x,ay) and u(x,by),
-for k = 1:nx
-    x(k) = ax+hx*(k-1);
+for k = 2:nxplus-1
+    x(k) = axneg+hx*(k-1);
     phi(k) = (x(k)-ax)*(x(k)-ax)*sin(pi*(x(k)-ax)/(2*(bx-ax))); %Boundary Conditions @y=-pi
     psi(k) = (cos(pi*(x(k)-ax))-1)*cosh(bx-x(k));   %Boundary Conditions @y=pi
 end
@@ -60,10 +60,13 @@ for i = 1:100
     for j = 2:ny-1 
 %           u(:,1) = u(:,3);
 %           u(:,nxplus) = u(:,nxplus-2);
-%          F(j,2) = sin(pi*(x(2)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2);
-%          
-%          
-%          F(j,nxplus-1) = sin(pi*(x(nxplus-1)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2);
+         F(j,2) = sin(pi*(x(2)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2);
+         
+         
+         F(j,nxplus-1) = sin(pi*(x(nxplus-1)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2);
+         
+         
+         
         for k = 1:nx      
             if k==1
                 u(j,k) = (2*u(j,k+1)+u(j-1,k)+u(j+1,k)+F(j,k)*hy*hx)/4;
@@ -72,16 +75,16 @@ for i = 1:100
                 
             else
                     
-              
+                end
+                else
             F(j,k) = sin(pi*(x(k)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2);
             u(j,k) = (u(j,k-1)+u(j,k+1)+u(j-1,k)+u(j+1,k)+F(j,k)*hy*hx)/4;
             end
-        end
-             
+        end     
         
     end
     i
-    graph = surf(x,y,u);
+    graph = surf(x,y,F);
     drawnow;
     
     refreshdata(graph)
