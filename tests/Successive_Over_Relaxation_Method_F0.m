@@ -19,8 +19,8 @@ by=pi;
 
 % Discretizing the domain into nx and ny increments to obtain segment
 % lengths hx and hy
-nx=500;
-ny=500;
+nx=100;
+ny=100;
 hx = (bx-ax)/(nx-1);
 hy = (by-ay)/(ny-1);
 
@@ -48,7 +48,7 @@ wopt = 2/(1+sin(pi*hx)); % optimal parameter w found using equation obtained fro
 %Setting initial error 
 E=1;
 %Setting wanted magnitude of error
-Ewanted=10^-5; 
+Ewanted=10^-7; 
 % Initialize iteration and checkpointing values
 i=0;
 t=0;
@@ -57,7 +57,7 @@ while E > Ewanted   % Code to remaine running until error is less than wanted am
         
     for k = 1:nx 
         for j = 2:ny-1      
-            F(j,k) = sin(pi*(x(k)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2); % Find value for F to be later plugged into u(x,y) equations
+            % F continues as the preallocated value of zero for comparison
             if k==1   % Setting boundary conditions in place for left boundary
                 u(j,k) = (2*u(j,k+1)+u(j-1,k)+SORu(j+1,k)+F(j,k)*hy*hx)/4;% Using previous u for Gauss-Seidel method
             elseif k==nx   % Setting boundary conditions in place for right boundary
@@ -76,7 +76,6 @@ while E > Ewanted   % Code to remaine running until error is less than wanted am
     i=i+1;
     E = max(max(abs(SORu-u))); % Using the L infinite error equation to find the difference between iterations, to decide whether to keep iterating
 end
-r = max(nx,ny); %This variable will decide whether to include gridlines for the surface plot
 r = max(nx,ny); %This variable will decide whether to include gridlines for the surface plot
 if r<100        % At around 100 nodes is when the gridline begin to obscure the color, this if statement 
     graph = surf(x,y,u); % Graph the surface plot for x, y, and the function u(x,y)

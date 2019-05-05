@@ -19,8 +19,8 @@ by=pi;
 
 % Discretizing the domain into nx and ny increments to obtain segment
 % lengths hx and hy
-nx=99;
-ny=99;
+nx=80;
+ny=80;
 hx = (bx-ax)/(nx-1);
 hy = (by-ay)/(ny-1);
 
@@ -52,7 +52,7 @@ while E > Ewanted   % Code to remaine running until error is less than wanted am
     GSu = u;        % Saving prior u to use for Gauss-Seidel method
     for k = 1:nx 
         for j = 2:ny-1      
-            F(j,k) = sin(pi*(x(k)-ax)/(bx-ax)).*cos(pi*(2*(y(j)-ay)/(by-ay)+1)/2); % Find value for F to be later plugged into u(x,y) equations
+            % F continues as the preallocated value of zero for comparison
             if k==1   % Setting boundary conditions in place for left boundary
                 u(j,k) = (2*u(j,k+1)+u(j-1,k)+GSu(j+1,k)+F(j,k)*hy*hx)/4;% Using previous u for Gauss-Seidel method
             elseif k==nx   % Setting boundary conditions in place for right boundary
